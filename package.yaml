@@ -1,0 +1,16 @@
+name:                chip8hs
+version:             0.1.0.0
+synopsis:            A CHIP-8 emulator
+author:              Pengji Zhang
+maintainer:          me@pengjiz.com
+
+ghc-options:
+  - -Wall
+
+dependencies:
+  - base >= 4.7 && < 5
+
+executables:
+  chip8hs:
+    source-dirs:      src
+    main:             Main.hs
