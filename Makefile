@@ -3,18 +3,21 @@ STACK = stack
 LINTER = hlint
 FORMATTER = stylish-haskell -i -r
 
-.PHONY: all build lint format clean
+.PHONY: all build test lint format clean
 
 all: build
 
 build:
 	$(STACK) build
 
+test:
+	$(STACK) test
+
 lint:
-	$(LINTER) src
+	$(LINTER) src app test
 
 format:
-	$(FORMATTER) src
+	$(FORMATTER) src app test
 
 clean:
 	$(STACK) clean
