@@ -21,6 +21,7 @@ library:
   source-dirs: src
   exposed-modules:
     - Run
+    - Disassemble
 
 tests:
   spec:
