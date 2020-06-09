@@ -22,6 +22,11 @@ library:
   exposed-modules:
     - Run
     - Disassemble
+    - Machine
+  dependencies:
+    - random
+    - vector
+    - microlens-platform
 
 tests:
   spec:
@@ -30,3 +35,6 @@ tests:
     dependencies:
       - chip8hs
       - hspec
+      - random
+      - vector
+      - microlens-platform

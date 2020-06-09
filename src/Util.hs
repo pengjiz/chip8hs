@@ -2,9 +2,11 @@ module Util
   ( splitOpcode
   , mergeOpcode
   , chunksOf
+  , splitSprite
+  , bcdOf
   ) where
 
-import           Data.Bits (rotateL, shiftL, (.&.), (.|.))
+import           Data.Bits (rotateL, shiftL, testBit, (.&.), (.|.))
 import           Data.Word (Word16, Word8)
 
 -- | Split a two-byte opcode into four parts.
@@ -24,3 +26,13 @@ chunksOf :: Int -> [a] -> [[a]]
 chunksOf _ [] = []
 chunksOf n xs = let (y, xs') = splitAt n xs
                 in y : chunksOf n xs'
+
+-- | Split a sprite into a list of boolean.
+splitSprite :: [Word8] -> [Bool]
+splitSprite = foldr g []
+  where g b = (++) $ map (testBit b) [7, 6 .. 0]
+
+
+-- | Split a one-byte number into its BCD representation.
+bcdOf :: Word8 -> (Word8, Word8, Word8)
+bcdOf n = (n `div` 100, n `mod` 100 `div` 10, n `mod` 10)
