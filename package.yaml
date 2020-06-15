@@ -27,6 +27,8 @@ library:
     - random
     - vector
     - microlens-platform
+    - brick
+    - vty
 
 tests:
   spec:
