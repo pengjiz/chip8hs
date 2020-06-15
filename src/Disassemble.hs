@@ -151,7 +151,10 @@ decode c = case splitOpcode c of
   where m = c .&. 0x0fff
         n = fromIntegral (c .&. 0x00ff) :: Word8
 
--- | Disassemble a sequence of bytes.
-disassemble :: [Word8] -> String
-disassemble = unlines . map (showLine . mergeOpcode) . chunksOf 2
-  where showLine x = printf "0x%04x : %s" x $ maybe "-" show (decode x)
+-- | Disassemble a sequence of bytes starting from a given address.
+disassemble :: Word16 -> [Word8] -> String
+disassemble addr = unlines
+                   . zipWith showLine [addr, addr + 2 ..]
+                   . map mergeOpcode . chunksOf 2
+  where showLine a x = let d = maybe "-" show (decode x)
+                       in printf "[0x%03x] 0x%04x : %s" a x d

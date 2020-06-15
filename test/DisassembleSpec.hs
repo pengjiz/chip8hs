@@ -55,32 +55,32 @@ spec = do
 
   describe "disassemble" $ do
     it "shows the assembly of one full opcode" $
-      disassemble [0x00, 0xe0] `shouldBe` unlines ["0x00e0 : CLS"]
+      disassemble 0x200 [0x00, 0xe0] `shouldBe` unlines ["[0x200] 0x00e0 : CLS"]
 
     it "appends 0x00 to one dangling byte" $
-      disassemble [0x1] `shouldBe` unlines ["0x0100 : SYS 0x100"]
+      disassemble 0x200 [0x1] `shouldBe` unlines ["[0x200] 0x0100 : SYS 0x100"]
 
     it "shows the assembly of multiple opcodes" $
-      disassemble [ 0x6a, 0x11
-                  , 0x8a, 0xb0
-                  , 0xfa, 0x65
-                  , 0x30, 0x01
-                  , 0x50, 0x10
-                  , 0xea, 0x9e
-                  ] `shouldBe`
-        unlines [ "0x6a11 : LD Va, 0x11"
-                , "0x8ab0 : LD Va, Vb"
-                , "0xfa65 : LD Va, [I]"
-                , "0x3001 : SE V0, 0x01"
-                , "0x5010 : SE V0, V1"
-                , "0xea9e : SKP Va"
+      disassemble 0x200 [ 0x6a, 0x11
+                        , 0x8a, 0xb0
+                        , 0xfa, 0x65
+                        , 0x30, 0x01
+                        , 0x50, 0x10
+                        , 0xea, 0x9e
+                        ] `shouldBe`
+        unlines [ "[0x200] 0x6a11 : LD Va, 0x11"
+                , "[0x202] 0x8ab0 : LD Va, Vb"
+                , "[0x204] 0xfa65 : LD Va, [I]"
+                , "[0x206] 0x3001 : SE V0, 0x01"
+                , "[0x208] 0x5010 : SE V0, V1"
+                , "[0x20a] 0xea9e : SKP Va"
                 ]
 
     it "shows unknown opcodes" $
-      disassemble [0x8a, 0xba, 0xfa, 0x56, 0xfa] `shouldBe`
-        unlines [ "0x8aba : -"
-                , "0xfa56 : -"
-                , "0xfa00 : -"
+      disassemble 0x200 [0x8a, 0xba, 0xfa, 0x56, 0xfa] `shouldBe`
+        unlines [ "[0x200] 0x8aba : -"
+                , "[0x202] 0xfa56 : -"
+                , "[0x204] 0xfa00 : -"
                 ]
 
 -- Local Variables:
