@@ -1,4 +1,10 @@
-module Run (CommonOpts(..), RunOpts(..), DisasmOpts, run, disasm) where
+module Run
+  ( CommonOpts (..)
+  , RunOpts (..)
+  , DisasmOpts
+  , run
+  , disasm
+  ) where
 
 import           Brick              (customMain)
 import           Brick.BChan        (newBChan, writeBChan)

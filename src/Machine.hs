@@ -4,8 +4,8 @@
 module Machine
   ( Machine
   , FrameBuffer
-  , ErrorKind(..)
-  , Error(..)
+  , ErrorKind (..)
+  , Error (..)
   , initMachine
   , loadRom
   , step
@@ -511,13 +511,13 @@ writeFB :: V.Vector Bool -> Instruction
 writeFB ps m =
   if view (fb . dirty) m
   then pure $ set paused True m
-  else let c = V.any (\(x, y) -> not x && y) .
-               V.zip ps . view (fb . pixels) $ m
-       in pure .
-          set (fb . dirty) True .
-          set (fb . pixels) ps .
-          set (drs . ix 0xf) (if c then 1 else 0) .
-          set paused False $ m
+  else let c = V.any (\(x, y) -> not x && y)
+               . V.zip ps . view (fb . pixels) $ m
+       in pure
+          . set (fb . dirty) True
+          . set (fb . pixels) ps
+          . set (drs . ix 0xf) (if c then 1 else 0)
+          . set paused False $ m
 
 -- | Draw the given number of bytes to frame buffer.
 draw :: Word8 -> Word8 -> Word8 -> Instruction

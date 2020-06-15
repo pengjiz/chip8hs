@@ -1,4 +1,9 @@
-module Disassemble (Operand(..), Operation(..), decode, disassemble) where
+module Disassemble
+  ( Operand (..)
+  , Operation (..)
+  , decode
+  , disassemble
+  ) where
 
 import           Data.Bits   ((.&.))
 import           Data.Word   (Word16, Word8)

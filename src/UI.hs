@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module UI (Event(..), app) where
+module UI (Event (..), app) where
 
 import           Brick                (App (..), AttrMap, AttrName,
                                        BrickEvent (..), EventM, Next, Widget,
@@ -97,9 +97,9 @@ keypadLayout = [ [0x1, 0x2, 0x3, 0xc]
 -- | Handle event.
 handleEvent :: State -> BrickEvent Name Event -> EventM Name (Next State)
 handleEvent (Right m) (AppEvent e) = case e of
-  Execute -> continue $ step m
-  Redraw -> do invalidateCacheEntry Screen
-               continue . pure $ set (fb . dirty) False m
+  Execute     -> continue $ step m
+  Redraw      -> do invalidateCacheEntry Screen
+                    continue . pure $ set (fb . dirty) False m
   DecayTimers -> continue . pure $ decayTimers m
   DecayKeypad -> continue . pure $ decayKeypad m
 handleEvent s@(Right m) (VtyEvent (T.EvKey k [])) = case k of
