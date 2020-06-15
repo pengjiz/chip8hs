@@ -43,7 +43,7 @@ data RunOpts = RunOpts
 run :: CommonOpts -> RunOpts -> IO ()
 run copts ropts = do
   -- Set up events
-  chan <- newBChan 1000
+  chan <- newBChan 100
   void . forkIO . forever $ do
     threadDelay $ 1000000 `div` cpuFreq ropts
     writeBChan chan Execute

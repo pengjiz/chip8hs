@@ -30,14 +30,14 @@ runOpts = do
         $ metavar "N"
         <> help "CPU frequency in Hz"
         <> long "cpu-freq"
-        <> value 10000
+        <> value 1000
         <> showDefault
         <> hidden
   sf <- option auto
         $ metavar "N"
         <> help "Screen refresh frequency in Hz"
         <> long "screen-freq"
-        <> value 100
+        <> value 30
         <> showDefault
         <> hidden
   kt <- option auto

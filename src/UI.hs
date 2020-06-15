@@ -96,10 +96,12 @@ keypadLayout = [ [0x1, 0x2, 0x3, 0xc]
 
 -- | Handle event.
 handleEvent :: State -> BrickEvent Name Event -> EventM Name (Next State)
-handleEvent (Right m) (AppEvent e) = case e of
+handleEvent s@(Right m) (AppEvent e) = case e of
   Execute     -> continue $ step m
-  Redraw      -> do invalidateCacheEntry Screen
-                    continue . pure $ set (fb . dirty) False m
+  Redraw      -> if view (fb . dirty) m
+                 then invalidateCacheEntry Screen >>
+                      (continue . pure $ set (fb . dirty) False m)
+                 else continue s
   DecayTimers -> continue . pure $ decayTimers m
   DecayKeypad -> continue . pure $ decayKeypad m
 handleEvent s@(Right m) (VtyEvent (T.EvKey k [])) = case k of
