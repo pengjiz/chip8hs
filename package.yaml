@@ -29,6 +29,7 @@ library:
     - microlens-platform
     - brick
     - vty
+    - bytestring
 
 tests:
   spec:
