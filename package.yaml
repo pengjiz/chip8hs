@@ -14,8 +14,11 @@ executables:
   chip8hs:
     source-dirs: app
     main: Main.hs
+    ghc-options:
+      - -threaded
     dependencies:
       - chip8hs
+      - optparse-applicative
 
 library:
   source-dirs: src
