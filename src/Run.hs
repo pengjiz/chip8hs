@@ -21,7 +21,7 @@ import           UI                 (Event (..), app)
 
 -- | Common arguments for all commands.
 data CommonOpts = CommonOpts
-  { -- | ROM file path.
+  { -- | ROM file to use.
     file      :: FilePath
     -- | Starting address of program.
   , startAddr :: Word16
@@ -29,13 +29,13 @@ data CommonOpts = CommonOpts
 
 -- | Arguments specifically for running a ROM.
 data RunOpts = RunOpts
-  { -- | CPU frequency in Hz.
-    cpuFreq    :: Int
-    -- | Screen refresh frequency in Hz.
-  , screenFreq :: Int
-    -- | Timeout for a key press in milliseconds.
+  { -- | Number of steps executed per second.
+    speed      :: Int
+    -- | Number of screen redraws per second.
+  , redrawRate :: Int
+    -- | Time before clearing a key press in milliseconds.
   , keyTimeout :: Int
-    -- | Random seed.
+    -- | Initial random seed.
   , seed       :: Maybe Int
   } deriving (Show)
 
@@ -45,10 +45,10 @@ run copts ropts = do
   -- Set up events
   chan <- newBChan 100
   void . forkIO . forever $ do
-    threadDelay $ 1000000 `div` cpuFreq ropts
+    threadDelay $ 1000000 `div` speed ropts
     writeBChan chan Execute
   void . forkIO . forever $ do
-    threadDelay $ 1000000 `div` screenFreq ropts
+    threadDelay $ 1000000 `div` redrawRate ropts
     writeBChan chan Redraw
   void . forkIO . forever $ do
     threadDelay $ 1000000 `div` 60

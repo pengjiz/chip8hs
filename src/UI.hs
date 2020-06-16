@@ -5,9 +5,9 @@ module UI (Event (..), app) where
 import           Brick                (App (..), AttrMap, AttrName,
                                        BrickEvent (..), EventM, Next, Widget,
                                        attrMap, cached, continue, emptyWidget,
-                                       hBox, hLimit, halt, neverShowCursor, on,
-                                       str, strWrap, vBox, withAttr)
-import           Brick.Main           (invalidateCacheEntry)
+                                       hBox, hLimit, halt, invalidateCacheEntry,
+                                       neverShowCursor, on, str, strWrap, vBox,
+                                       withAttr)
 import qualified Brick.Widgets.Border as B
 import qualified Brick.Widgets.Center as C
 import qualified Graphics.Vty         as T

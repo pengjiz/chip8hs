@@ -14,11 +14,11 @@ commonOpts :: Parser CommonOpts
 commonOpts = do
   f <- argument str
        $ metavar "FILE"
-       <> help "ROM file path"
+       <> help "ROM file to use"
   s <- option auto
-       $ metavar "N"
+       $ metavar "ADDR"
        <> help "Starting address of program"
-       <> short 's'
+       <> long "start-addr"
        <> value 0x200
        <> showDefault
        <> hidden
@@ -26,37 +26,36 @@ commonOpts = do
 
 runOpts :: Parser RunOpts
 runOpts = do
-  cf <- option auto
-        $ metavar "N"
-        <> help "CPU frequency in Hz"
-        <> long "cpu-freq"
-        <> value 1000
-        <> showDefault
-        <> hidden
-  sf <- option auto
-        $ metavar "N"
-        <> help "Screen refresh frequency in Hz"
-        <> long "screen-freq"
-        <> value 30
-        <> showDefault
-        <> hidden
-  kt <- option auto
-        $ metavar "N"
-        <> help "Key press timeout in milliseconds"
-        <> long "key-timeout"
-        <> value 100
-        <> showDefault
-        <> hidden
-  r <- optional
-       $ option auto
-       $ metavar "N"
-       <> help "Random seed"
+  s <- option auto
+       $ metavar "SPEED"
+       <> help "Number of steps executed per second"
+       <> long "speed"
+       <> value 1000
+       <> showDefault
+       <> hidden
+  r <- option auto
+       $ metavar "RATE"
+       <> help "Number of screen redraws per second"
+       <> long "redraw-rate"
+       <> value 30
+       <> showDefault
+       <> hidden
+  k <- option auto
+       $ metavar "TIME"
+       <> help "Time before clearing a key press in milliseconds"
+       <> long "key-timeout"
+       <> value 100
+       <> showDefault
+       <> hidden
+  g <- optional . option auto
+       $ metavar "SEED"
+       <> help "Initial random seed"
        <> long "seed"
        <> hidden
-  pure $ RunOpts { cpuFreq = cf
-                 , screenFreq = sf
-                 , keyTimeout = kt
-                 , seed = r
+  pure $ RunOpts { speed = s
+                 , redrawRate = r
+                 , keyTimeout = k
+                 , seed = g
                  }
 
 cmdRun :: Parser Cmd
