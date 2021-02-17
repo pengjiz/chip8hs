@@ -51,7 +51,7 @@ app = App { appDraw = draw
 draw :: State -> [Widget Name]
 draw s = [C.center $ hBox [drawScreen s, drawInfo s]]
 
--- | Draw the screen area.
+-- | Draw screen.
 drawScreen :: State -> Widget Name
 drawScreen (Left e) = B.borderWithLabel (str "Error") $ strWrap (show e)
 drawScreen (Right m) = B.borderWithLabel (str "Screen")

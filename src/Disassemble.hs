@@ -67,7 +67,7 @@ data Operation =
   | Or Operand Operand
   -- | Bit-wise and.
   | And Operand Operand
-  -- | Bit-wise xor
+  -- | Bit-wise xor.
   | Xor Operand Operand
   -- | Subtract value.
   | Sub Operand Operand

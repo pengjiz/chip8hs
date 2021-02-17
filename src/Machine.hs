@@ -54,13 +54,13 @@ screenWidth = 64
 screenHeight :: Int
 screenHeight = 32
 
--- | Value a key get when it is pressed.
+-- | Initial value of a pressed key.
 keyPress :: Int
 keyPress = 20
 
--- | Model for a frame buffer.
+-- | Model for frame buffer.
 data FrameBuffer = FrameBuffer
-  { -- | Pixels on the screen.
+  { -- | Pixels of frame buffer.
     _pixels :: V.Vector Bool
     -- | Whether frame buffer has been drawn on the screen.
   , _dirty  :: Bool
@@ -80,7 +80,7 @@ emptyFB = FrameBuffer
   , _dirty = True
   }
 
--- | Model for a CHIP-8 machine.
+-- | Model for CHIP-8 machine.
 data Machine = Machine
   { -- | Program counter.
     _pc     :: Word16
@@ -148,7 +148,7 @@ instance Show Machine where
 
 makeLenses ''Machine
 
--- | Font set of CHIP-8.
+-- | CHIP-8 font set.
 fontSet :: V.Vector Word8
 fontSet = V.fromList
   [ 0xf0, 0x90, 0x90, 0x90, 0xf0 -- 0

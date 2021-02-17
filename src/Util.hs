@@ -27,7 +27,7 @@ chunksOf _ [] = []
 chunksOf n xs = let (y, xs') = splitAt n xs
                 in y : chunksOf n xs'
 
--- | Split a sprite into a list of boolean.
+-- | Split a sprite into a list of boolean values.
 splitSprite :: [Word8] -> [Bool]
 splitSprite = foldr g []
   where g b = (++) $ map (testBit b) [7, 6 .. 0]
