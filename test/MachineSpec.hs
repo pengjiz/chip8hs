@@ -2,6 +2,7 @@ module MachineSpec (spec) where
 
 import           Control.Monad       (foldM)
 import           Data.Bits           ((.&.))
+import           Data.Either         (fromRight)
 import           Data.Word           (Word8)
 import           Lens.Micro.Platform (each, ix, over, set, view)
 import           Machine
@@ -9,10 +10,9 @@ import qualified System.Random       as R
 import           Test.Hspec          (Spec, describe, it, shouldBe)
 
 mkMachine :: [Word8] -> Machine
-mkMachine bs = either
-  (const $ error "Failed to make test machine")
-  id
-  (loadRom 0x200 bs . initMachine $ R.mkStdGen 0)
+mkMachine bs = fromRight err m
+  where m = loadRom 0x200 bs . initMachine $ R.mkStdGen 0
+        err = error "Failed to make test machine"
 
 stepN :: Int -> Machine -> Either Error Machine
 stepN n m = foldM (flip ($)) m $ replicate n step

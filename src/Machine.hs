@@ -359,11 +359,11 @@ pushStack v m = if p >= size
 
 -- | Pop value from stack.
 popStack :: Machine -> Either Error (Word16, Machine)
-popStack m = maybe e r v
+popStack m = maybe err r v
   where p = fromIntegral $ view sp m
         v = preview (stack . ix (p - 1)) m
-        e = throwError InvalidSP m
         r x = pure (x, over sp (subtract 1) m)
+        err = throwError InvalidSP m
 
 -- | Move program counter to the next instruction.
 nextPC :: Instruction
@@ -492,8 +492,8 @@ writeTimer t x m = t m <$> readDR x m
 -- | Check if key in the given register is pressed.
 isKeyPressed :: Word8 -> Machine -> Either Error Bool
 isKeyPressed x m = readDR x m >>= \k ->
-  let err = throwError InvalidKey m
-      vk = (>0) <$> preview (keypad . ix (fromIntegral k)) m
+  let vk = (>0) <$> preview (keypad . ix (fromIntegral k)) m
+      err = throwError InvalidKey m
   in maybe err pure vk
 
 -- | Wait for a key press and store it.
