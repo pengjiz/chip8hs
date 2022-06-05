@@ -1,0 +1,46 @@
+name: chip8hs
+version: 0.1.0.0
+synopsis: A CHIP-8 emulator
+author: Pengji Zhang
+maintainer: me@pengjiz.com
+
+ghc-options:
+  - -Wall
+
+dependencies:
+  - base >= 4.7 && < 5
+
+executables:
+  chip8hs:
+    source-dirs: app
+    main: Main.hs
+    ghc-options:
+      - -threaded
+    dependencies:
+      - chip8hs
+      - optparse-applicative
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Run
+    - Disassemble
+    - Machine
+  dependencies:
+    - random
+    - vector
+    - microlens-platform
+    - brick
+    - vty
+    - bytestring
+
+tests:
+  spec:
+    source-dirs: test
+    main: Spec.hs
+    dependencies:
+      - chip8hs
+      - hspec
+      - random
+      - vector
+      - microlens-platform
