@@ -517,26 +517,24 @@ writeFB ps m = let c = V.any (\(x, y) -> not x && y)
 -- | Draw the given number of bytes to frame buffer.
 draw :: Word8 -> Word8 -> Word8 -> Instruction
 draw x y n m = do
-  vx <- readDR x m
-  vy <- readDR y m
+  vx <- fromIntegral <$> readDR x m
+  vy <- fromIntegral <$> readDR y m
   bs <- readMem (view ir m) (fromIntegral n) m
   let ps = drawSprite vx vy bs $ view (fb . pixels) m
   writeFB ps m
 
 -- | Draw a pixel.
-drawPixel :: (Word8, Word8, Bool) -> V.Vector Bool -> V.Vector Bool
+drawPixel :: (Int, Int, Bool) -> V.Vector Bool -> V.Vector Bool
 drawPixel (x, y, c) = over (ix n) (xor c)
-  where x' = fromIntegral x `mod` screenWidth
-        y' = fromIntegral y `mod` screenHeight
+  where x' = x `mod` screenWidth
+        y' = y `mod` screenHeight
         n = y' * screenWidth + x'
 
 -- | Draw a sprite.
-drawSprite :: Word8 -> Word8 -> [Word8]
-           -> V.Vector Bool -> V.Vector Bool
+drawSprite :: Int -> Int -> [Word8] -> V.Vector Bool -> V.Vector Bool
 drawSprite x y bs = flip (foldr drawPixel) ps
-  where n = length bs
-        xs = cycle [x .. x + 7]
-        ys = concatMap (replicate 8) [y .. y + fromIntegral n - 1]
+  where xs = cycle [x .. x + 7]
+        ys = concatMap (replicate 8) [y .. y + length bs - 1]
         cs = splitSprite bs
         ps = zip3 xs ys cs
 
