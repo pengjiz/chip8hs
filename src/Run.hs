@@ -16,6 +16,7 @@ import           Disassemble        (disassemble)
 import qualified Graphics.Vty       as T
 import           Machine            (initMachine, keyPress, loadRom)
 import           System.Exit        (exitFailure)
+import           System.IO          (hPrint, stderr)
 import qualified System.Random      as R
 import           UI                 (Event (..), app)
 
@@ -70,7 +71,7 @@ run copts ropts = do
   -- Check result
   case r of
     (Right _) -> return ()
-    (Left e)  -> print e >> exitFailure
+    (Left e)  -> hPrint stderr e >> exitFailure
 
 -- | Options specifically for disassembling a ROM.
 type DisasmOpts = ()
