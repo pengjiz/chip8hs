@@ -377,11 +377,6 @@ spec = do
       let r = Error { kind = UnknownOpcode, machine = m }
       step m `shouldBe` Left r
 
-    it "fails on invalid PC" $ do
-      let m = set pc 0x201 $ mkMachine [0x00, 0xe0]
-      let r = Error { kind = OddPC, machine = m }
-      step m `shouldBe` Left r
-
     it "fails on too many subroutine calls" $ do
       let m = mkMachine [0x22, 0x00]
       let r = Error { kind = StackOverflow

@@ -189,8 +189,6 @@ initMachine r = Machine
 data ErrorKind =
   -- | Invalid opcode.
   UnknownOpcode
-  -- | Odd program counter.
-  | OddPC
   -- | Stack full when trying to push data.
   | StackOverflow
   -- | Stack pointer out of range.
@@ -209,7 +207,6 @@ data ErrorKind =
 
 instance Show ErrorKind where
   show UnknownOpcode  = "Unknown opcode"
-  show OddPC          = "Odd program counter"
   show StackOverflow  = "Stack overflow"
   show InvalidSP      = "Invalid stack pointer"
   show InvalidAddress = "Invalid memory address"
@@ -281,9 +278,7 @@ getInstruction c = decode c >>= \case
 
 -- | Fetch the current opcode for the machine.
 fetchOpcode :: Machine -> Either Error Word16
-fetchOpcode m = if odd (view pc m)
-                then throwError OddPC m
-                else mergeOpcode <$> readMem (view pc m) 2 m
+fetchOpcode m = mergeOpcode <$> readMem (view pc m) 2 m
 
 -- | Load ROM into memory and jump to the start of ROM.
 loadRom :: Word16 -> [Word8] -> Machine -> Either Error Machine
